@@ -13,9 +13,15 @@ CHARACTER_SCALING = 0.3
 TILE_SCALING = 0.5
 
 JUMP_MAX_HEIGHT = 100
+PLAYER_JUMP_SPEED = 3
 
-# Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 5
+PLAYER_X_SPEED = 5
+PLAYER_Y_SPEED = 5
+
+PLATFORM_SCALE = 0.5
+
+# Movement speed of player, in pixels per frame (мне не нужно)
+# PLAYER_MOVEMENT_SPEED = 5 
 
 class MyGame(arcade.Window):
     """
@@ -41,7 +47,15 @@ class MyGame(arcade.Window):
         self.player_start = None
         self.camera_max = 0
 
-        arcade.set_background_color(arcade.csscolor.GREEN)
+        self.key_right_pressed = False
+        self.key_left_pressed = False
+
+        self.collide = False
+
+        self.player_dx = PLAYER_X_SPEED
+        self.player_dy = PLAYER_Y_SPEED
+
+        arcade.set_background_color(arcade.csscolor.BLUE)
 
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
@@ -59,6 +73,8 @@ class MyGame(arcade.Window):
         self.player_sprite.center_y = 125
         self.player_list.append(self.player_sprite)
 
+        self.jump_start = self.player_sprite.center_y
+
         # Create the ground
         # This shows using a loop to place multiple sprites horizontally
         for x in range(0, 1250, 64):
@@ -74,11 +90,11 @@ class MyGame(arcade.Window):
         for coordinate in coordinate_list:
             # Add a crate on the ground
             wall = arcade.Sprite(
-                ":resources:images/tiles/boxCrate_double.png", TILE_SCALING
+                ":resources:images/tiles/boxCrate_double.png", PLATFORM_SCALE
             )
-            wall.position = coordinate
-            #wall.center_x = coordinate[0]
-            #wall.center_y = coordinate[1]
+            #wall.position = coordinate
+            wall.center_x = coordinate[0]
+            wall.center_y = coordinate[1]
             self.wall_list.append(wall)
 
     def on_draw(self):
@@ -93,11 +109,19 @@ class MyGame(arcade.Window):
         self.wall_list.draw()
         self.player_list.draw()
 
+
+    #НЕ ДЛЯ МОЕЙ ИГРЫ !!! !!! !!!
+    #
+    #
     def center_camera_to_player(self):
-        screen_center_x = self.player_sprite.center_x - (self.camera.viewport_width / 2)
-        screen_center_y = self.player_sprite.center_y - (
-            self.camera.viewport_height / 2
-        )
+        screen_center_x = self.player_sprite.center_x - (self.camera.
+        viewport_width / 2)
+        if self.player_sprite.center_y - (self.camera.viewport_height / 2) >= self.camera_max:
+            screen_center_y = self.player_sprite.center_y - (self.camera.viewport_height / 2)
+            self.camera_max = self.player_sprite.center_y - (self.camera.viewport_height / 2)
+        else:
+            screen_center_y = self.camera_max
+
 
         # Don't let camera travel past 0
         if screen_center_x < 0:
@@ -108,6 +132,49 @@ class MyGame(arcade.Window):
 
         self.camera.move_to(player_centered)
 
+    def player_movement(self):
+
+        if self.collide:
+            self.player_dx = 0
+            self.player_dy = 0
+        else:
+            self.player_dx = PLAYER_X_SPEED
+            self.player_dy = PLAYER_Y_SPEED
+
+        if self.key_left_pressed:
+            self.player_sprite.center_x -= self.player_dx
+        if self.key_right_pressed:
+            self.player_sprite.center_x += self.player_dx
+
+
+        if self.player_jump:
+            self.player_sprite.center_y += self.player_dy
+            if self.player_sprite.center_y > self.jump_start + JUMP_MAX_HEIGHT:
+                self.player_jump = False
+        else:
+            if self.player_sprite.center_y > self.jump_start:
+                self.player_sprite.center_y -= self.player_dy
+
+
+    def _get_width(self) -> float:
+        return self.width
+    
+    def _get_height(self) -> float:
+        return self.height
+
+    arcade.Sprite._get_width = _get_width
+    arcade.Sprite._get_height = _get_height
+
+
+    def calculate_collision(self):
+        self.collide = False
+        for block in self.wall_list:
+            if block.center_x + block._get_width() / 2 >= self.player_sprite.center_x >= block.center_x - block._get_width() / 2 \
+            and block.center_y + block._get_height() / 2 >= self.player_sprite.center_y >= block.center_y - block._get_height() / 2:
+                self.collide = True
+            
+
+
     def on_update(self, delta_time):
         """Movement and game logic"""
 
@@ -116,28 +183,33 @@ class MyGame(arcade.Window):
         #self.player_sprite.center_y += 0.5
         #self.player_sprite.center_x += 0.5
 
+        self.player_movement()
+
         if self.player_jump:
-            self.player_sprite.center_y += 2
-            if self.player_sprite.center_y > self.jump_start + JUMP_MAX_HEIGHT:
-                self.player_jump = False
+            self.collide = False
         else:
-            self.player_sprite.center_y -= 2
+            self.calculate_collision()
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
 
         if key == arcade.key.UP or key == arcade.key.W:
-            self.player_sprite.center_y += 20
+            self.player_jump = True
+            self.jump_start = self.player_sprite.center_y
         elif key == arcade.key.DOWN or key == arcade.key.S:
             self.player_sprite.center_y -= 20
         elif key == arcade.key.LEFT or key == arcade.key.A:
-            self.player_sprite.center_x -= 20
+            self.key_left_pressed = True
         elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.player_sprite.center_x += 20
+            self.key_right_pressed = True
+        #elif key == arcade.key.SPACE:  (если нужно будет, то 148-149 строка копир)
 
-        elif key == arcade.key.SPACE:  
-            self.player_jump = True
-            self.jump_start = self.player_sprite.center_y
+    def on_key_release(self, key, modifiers):
+
+        if key == arcade.key.LEFT or key == arcade.key.A:
+            self.key_left_pressed = False
+        elif key == arcade.key.RIGHT or key == arcade.key.D:
+            self.key_right_pressed = False
         
         
 def main():
