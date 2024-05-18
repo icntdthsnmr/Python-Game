@@ -1,0 +1,114 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "map.json",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "Все файлы (*)",
+    "fileStates": {
+        "Sprite-0005.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Sprite-0006.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "bg фон.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "bg.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "bg_big.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "blue.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "for_jump.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "map.json": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 4639.5,
+                "y": 727.25
+            }
+        },
+        "plitka_1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "plitka_2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "plitka_3.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "plitki.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "sheet.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "try.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Снимок экрана 2024-05-11 175330.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "гигачад.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "D:/Python-Game/Python-Game/img",
+    "map.height": 45,
+    "map.lastUsedFormat": "json",
+    "map.tileHeight": 32,
+    "map.tileWidth": 32,
+    "map.width": 64,
+    "openFiles": [
+        "map.json",
+        "for_jump.tsx",
+        "bg_big.tsx"
+    ],
+    "project": "Swordance.tiled-project",
+    "recentFiles": [
+        "bg_big.tsx",
+        "for_jump.tsx",
+        "map.json",
+        "bg фон.tsx",
+        "bg.tsx",
+        "plitka_1.tsx",
+        "plitka_2.tsx",
+        "plitka_3.tsx",
+        "plitki.tsx",
+        "blue.tsx",
+        "Sprite-0005.tsx",
+        "Sprite-0006.tsx"
+    ],
+    "resizeMap.removeObjects": true,
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.type": 0
+}
