@@ -68,6 +68,8 @@ class MyGame(arcade.Window):
         self.attack_duration = 0.5
         self.is_attacking = False
 
+        self.sword_sound = arcade.load_sound("sounds/sword_sound.mp3")
+
     def setup(self):
         self.camera = arcade.Camera(self.width, self.height)
 
@@ -147,8 +149,12 @@ class MyGame(arcade.Window):
         
         self.gui_camera.use()
 
-        score_text = f"Собрано голов: {self.score} из 12"
-        arcade.draw_text(score_text, 10, 10, arcade.csscolor.WHITE, 18)
+        if self.player_sprite.center_x <= 6300:
+            score_text = f"Собрано голов: {self.score} из 12"
+            arcade.draw_text(score_text, 10, 10, arcade.csscolor.WHITE, 18)
+        else:
+            score_text = f"Пройди до конца!"
+            arcade.draw_text(score_text, 10, 10, arcade.csscolor.WHITE, 18)
 
         if not self.can_high_jump:
             cooldown_text = f"Перезарядка способности: {self.high_jump_timer:.1f}"
@@ -192,7 +198,7 @@ class MyGame(arcade.Window):
             
             self.center_camera_to_player()
 
-            print("Координаты персонажа: ", self.player_sprite.center_x, self.player_sprite.center_y)
+            #print("Координаты персонажа: ", self.player_sprite.center_x, self.player_sprite.center_y)
             if self.player_sprite.center_y < -60:
                 self.game_over = True
 
@@ -218,14 +224,16 @@ class MyGame(arcade.Window):
                 self.player_sprite.center_x = new_x
                 self.player_sprite.center_y = new_y
 
-    def _get_width(self) -> float:
-        return self.width
-    
-    def _get_height(self) -> float:
-        return self.height
+            if self.player_sprite.center_x >= 11064 and self.player_sprite.center_y == 252:
+                arcade.close_window()
 
-    arcade.Sprite._get_width = _get_width
-    arcade.Sprite._get_height = _get_height
+            self.attack_timer += delta_time  # Увеличение времени атаки
+
+            if self.is_attacking:
+                if self.attack_timer >= self.attack_duration:
+                    self.is_attacking = False  # Перестаем использовать анимацию атаки
+                    self.attack_timer = 0
+                    self.player_sprite.texture = arcade.load_texture("img/main_pers.png")
 
     def calculate_collision_with_enemy(self):
 
@@ -240,12 +248,7 @@ class MyGame(arcade.Window):
         enemy_bottom = self.enemy_sprite.center_y - self.enemy_sprite.height / 2
         enemy_top = self.enemy_sprite.center_y + self.enemy_sprite.height / 2
 
-        if (
-            player_right >= enemy_left
-            and player_left <= enemy_right
-            and player_top >= enemy_bottom
-            and player_bottom <= enemy_top
-        ):
+        if (player_right >= enemy_left and player_left <= enemy_right and player_top >= enemy_bottom and player_bottom <= enemy_top):
             self.collide_with_enemy = True
 
     def check_for_collision_manual(self):
@@ -261,10 +264,8 @@ class MyGame(arcade.Window):
         
         if distance_x < collision_threshold and distance_y < collision_threshold:
             if self.player_sprite.change_y > 0:
-                # Если персонаж движется вверх (прыгает), то позволяем продолжить движение вверх
                 return False
             else:
-                # Иначе, позволяем продолжить движение в том направлении, в котором он двигался до коллизии
                 return True
         else:
             return False
@@ -309,13 +310,18 @@ class MyGame(arcade.Window):
             self.high_jump_active = False
     
     def on_mouse_press(self, x, y, button, modifiers):
-        if not self.game_over and button == arcade.MOUSE_BUTTON_LEFT:
+        arcade.play_sound(self.sword_sound)
+        if not self.game_over and button == arcade.MOUSE_BUTTON_LEFT and self.character_direction == "right":
             self.player_sprite.texture = arcade.load_texture("img/pers_attack.png")
             self.is_attacking = True
-            self.attack_timer = self.attack_duration
+            self.attack_timer = 0
+        elif not self.game_over and button == arcade.MOUSE_BUTTON_LEFT and self.character_direction == "left":
+            self.player_sprite.texture = arcade.load_texture("img/pers_attack_left.png")
+            self.is_attacking = True
+            self.attack_timer = 0
                   
 def main():
-    """Main function"""
+    
     window = MyGame()
     window.setup()
     arcade.run()    
