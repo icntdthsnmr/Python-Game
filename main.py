@@ -119,6 +119,18 @@ class MyGame(arcade.Window):
         self.enemy_sprite.center_y = 222
         self.scene.add_sprite("enemies", self.enemy_sprite)
 
+        self.portal_sprite = None
+
+        if self.score >= 12 and self.portal_sprite is None:
+
+            portal_sprite = arcade.Sprite("img/portal.png")
+
+            portal_sprite.center_x = 5064
+            portal_sprite.center_y = 935
+
+            self.scene.add_sprite("portals", portal_sprite)
+
+
         self.game_over = False
 
     def on_draw(self):
@@ -180,8 +192,7 @@ class MyGame(arcade.Window):
             
             self.center_camera_to_player()
 
-
-            #print("Координаты персонажа: ", self.player_sprite.center_x, self.player_sprite.center_y)
+            print("Координаты персонажа: ", self.player_sprite.center_x, self.player_sprite.center_y)
             if self.player_sprite.center_y < -60:
                 self.game_over = True
 
@@ -190,6 +201,22 @@ class MyGame(arcade.Window):
                 if self.high_jump_timer <= 0:
                     self.can_high_jump = True
                     self.high_jump_timer = 0
+
+            if self.score >= 12 and self.portal_sprite is None:
+                portal_sprite = arcade.Sprite("img/portal.png")
+                portal_sprite.center_x = 5064
+                portal_sprite.center_y = 924
+
+                self.portal_sprite = portal_sprite
+                self.scene.add_sprite("portals", portal_sprite)
+
+            if self.portal_sprite and arcade.check_for_collision(self.player_sprite, self.portal_sprite):
+                
+                new_x = 6294 
+                new_y = 988  
+
+                self.player_sprite.center_x = new_x
+                self.player_sprite.center_y = new_y
 
     def _get_width(self) -> float:
         return self.width
@@ -286,7 +313,6 @@ class MyGame(arcade.Window):
             self.player_sprite.texture = arcade.load_texture("img/pers_attack.png")
             self.is_attacking = True
             self.attack_timer = self.attack_duration
-
                   
 def main():
     """Main function"""
