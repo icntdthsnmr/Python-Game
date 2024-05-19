@@ -35,16 +35,20 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "exit.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "for_jump.tsx": {
             "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "map.json": {
-            "scale": 2,
+            "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 4639.5,
-                "y": 727.25
+                "x": 10991,
+                "y": 1024.5
             }
         },
         "plitka_1.tsx": {
@@ -61,6 +65,10 @@
         },
         "plitki.tsx": {
             "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "portal.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
@@ -91,10 +99,14 @@
     "openFiles": [
         "map.json",
         "for_jump.tsx",
-        "bg_big.tsx"
+        "bg_big.tsx",
+        "portal.tsx",
+        "exit.tsx"
     ],
     "project": "Swordance.tiled-project",
     "recentFiles": [
+        "exit.tsx",
+        "portal.tsx",
         "bg_big.tsx",
         "for_jump.tsx",
         "map.json",
@@ -104,9 +116,7 @@
         "plitka_2.tsx",
         "plitka_3.tsx",
         "plitki.tsx",
-        "blue.tsx",
-        "Sprite-0005.tsx",
-        "Sprite-0006.tsx"
+        "blue.tsx"
     ],
     "resizeMap.removeObjects": true,
     "tileset.lastUsedFormat": "tsx",
