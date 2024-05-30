@@ -9,6 +9,10 @@
     ],
     "file.lastUsedOpenFilter": "Все файлы (*)",
     "fileStates": {
+        "2lvl.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "Sprite-0005.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 1,
@@ -44,11 +48,11 @@
             "scaleInEditor": 1
         },
         "map.json": {
-            "scale": 1,
+            "scale": 0.75,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 10991,
-                "y": 1024.5
+                "x": 6946.666666666666,
+                "y": 1022
             }
         },
         "plitka_1.tsx": {
@@ -76,6 +80,22 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "shipok.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "shipok2lvl.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "shipok2lvl_1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "shipok_1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "try.tsx": {
             "dynamicWrapping": true,
             "scaleInDock": 1,
@@ -97,26 +117,22 @@
     "map.tileWidth": 32,
     "map.width": 64,
     "openFiles": [
-        "map.json",
-        "for_jump.tsx",
-        "bg_big.tsx",
-        "portal.tsx",
-        "exit.tsx"
+        "map.json"
     ],
     "project": "Swordance.tiled-project",
     "recentFiles": [
+        "map.json",
+        "shipok_1.tsx",
+        "shipok2lvl_1.tsx",
+        "shipok2lvl.tsx",
+        "2lvl.tsx",
+        "shipok.tsx",
         "exit.tsx",
         "portal.tsx",
         "bg_big.tsx",
         "for_jump.tsx",
-        "map.json",
         "bg фон.tsx",
-        "bg.tsx",
-        "plitka_1.tsx",
-        "plitka_2.tsx",
-        "plitka_3.tsx",
-        "plitki.tsx",
-        "blue.tsx"
+        "bg.tsx"
     ],
     "resizeMap.removeObjects": true,
     "tileset.lastUsedFormat": "tsx",

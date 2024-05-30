@@ -1,6 +1,5 @@
 import arcade
 
-# Constants
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720 
 SCREEN_TITLE = "Swordance"
@@ -14,9 +13,9 @@ PLAYER_MOVEMENT_SPEED = 10
 GRAVITY = 1
 PLAYER_JUMP_SPEED = 20
 HIGH_JUMP_SPEED = 30
-HIGH_JUMP_COOLDOWN = 1
+HIGH_JUMP_COOLDOWN = 3
 
-ENEMY_MOVEMENT_SPEED = 2
+ENEMY_MOVEMENT_SPEED = 7
 
 class MyGame(arcade.Window):
 
@@ -47,7 +46,7 @@ class MyGame(arcade.Window):
         self.is_attacking = False
 
         self.sword_sound = arcade.load_sound("sounds/sword_sound.mp3")
-        self.background_music = arcade.load_sound("sounds/KOHTA YAMAMOTO - Ashes on The Fire.mp3")
+        self.jump_sound = arcade.load_sound("sounds/jump_sound.mp3")
 
     def setup(self):
 
@@ -59,7 +58,6 @@ class MyGame(arcade.Window):
         map_name = "maps/map.json"
         layer_options = {
             "Floor": {"use_spatial_hash": True},
-            "Obstacle": {"use_spatial_hash": False},
         }
         self.tile_map = arcade.load_tilemap(map_name, TILE_SCALING, layer_options)
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
@@ -71,14 +69,12 @@ class MyGame(arcade.Window):
         self.player_sprite.center_y = 250
         self.scene.add_sprite("Player", self.player_sprite)
 
-        coordinate_list = [[646, 175], [880, 718], [2451, 555], [1855, 625], [1396, 462], [3236, 180], [4560, 620], [4590, 845], [3783, 272], [1106, 590], [2100, 780], [4227, 272]]
+        coordinate_list = [[646, 175], [880, 718], [2451, 555], [1855, 625], [1396, 462], [3236, 180], [4560, 620], [4590, 845], [4000, 272], [1156, 590], [2100, 780], [4227, 272]]
         for coord in coordinate_list:
             z_head = arcade.Sprite("img/zombie_head.png", Z_HEAD_SCALING)
             z_head.center_x = coord[0]
             z_head.center_y = coord[1]
             self.scene.add_sprite("z_heads", z_head)
-
-        arcade.play_sound(self.background_music, volume=0.01)
 
         self.enemy_sprite = arcade.Sprite("img/zombie.png", ENEMY_SCALING)
         self.enemy_sprite.center_x = 750
@@ -214,6 +210,7 @@ class MyGame(arcade.Window):
             self.game_over = False
         if not self.game_over:
             if key in [arcade.key.UP, arcade.key.SPACE] and self.player_can_jump:
+                arcade.play_sound(self.jump_sound, volume=0.5)
                 self.player_speed_y = PLAYER_JUMP_SPEED
             elif key in [arcade.key.LEFT, arcade.key.A]:
                 self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
