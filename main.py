@@ -56,7 +56,7 @@ class MyGame(arcade.Window):
 
         map_name = "maps/map.json"
         layer_options = {
-            "Floor": {"use_spatial_hash": True},
+            "Floor": {"use_spatial_hash": False},
         }
         self.tile_map = arcade.load_tilemap(map_name, TILE_SCALING, layer_options)
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
@@ -75,7 +75,7 @@ class MyGame(arcade.Window):
             z_head.center_y = coord[1]
             self.scene.add_sprite("z_heads", z_head)
 
-        self.enemy_sprite = arcade.Sprite("img/zombie.png", ENEMY_SCALING)
+        self.enemy_sprite = arcade.Sprite("img/zombie_right.png", ENEMY_SCALING)
         self.enemy_sprite.center_x = 750
         self.enemy_sprite.center_y = 222
         self.enemy_sprite.change_x = ENEMY_MOVEMENT_SPEED  
@@ -142,7 +142,12 @@ class MyGame(arcade.Window):
             for wall in self.scene["Floor"]:
                 if self.custom_check_for_collision(enemy, wall):
                     enemy.change_x *= -1
+                    if enemy.change_x > 0:
+                        enemy.texture = arcade.load_texture("img/zombie_right.png")  # Спрайт зомби смотрящий направо
+                    else:
+                        enemy.texture = arcade.load_texture("img/zombie.png")  # Спрайт зомби смотрящий налево
                     break
+
 
     def calculate_collision_with_enemy(self):
         for enemy in self.scene["enemies"]:
