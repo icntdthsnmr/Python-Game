@@ -37,7 +37,6 @@ class MyGame(arcade.Window):
 
         self.score = 0
         self.high_jump_active = False
-        self.high_jump_cooldown = HIGH_JUMP_COOLDOWN
         self.high_jump_timer = 0
         self.can_high_jump = True
 
