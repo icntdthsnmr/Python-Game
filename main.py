@@ -46,6 +46,7 @@ class MyGame(arcade.Window):
 
         self.sword_sound = arcade.load_sound("sounds/sword_sound.mp3")
         self.jump_sound = arcade.load_sound("sounds/jump_sound.mp3")
+        self.take_sound = arcade.load_sound("sounds/take_sound.mp3")
 
     def setup(self):
 
@@ -177,6 +178,7 @@ class MyGame(arcade.Window):
                 if self.custom_check_for_collision(self.player_sprite, z_head):
                     z_head.remove_from_sprite_lists()
                     self.score += 1
+                    arcade.play_sound(self.take_sound)
 
             self.center_camera_to_player()
 
